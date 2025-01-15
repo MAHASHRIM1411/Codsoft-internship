@@ -1,0 +1,177 @@
+To-Do List
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int MAX_TASKS = 100;  
+
+// Task structure
+struct Task {
+    string description;
+    int completed;
+};
+
+// To-Do List class
+class TodoList {
+private:
+    Task tasks[MAX_TASKS];  
+    int taskCount;          
+
+public:
+   
+    TodoList() {
+        taskCount = 0;
+    }
+
+    void addTask(string description) {
+        if (taskCount < MAX_TASKS) {
+            tasks[taskCount].description = description;
+            tasks[taskCount].completed = 0;  
+            taskCount++;
+            cout << "Task added successfully!" << endl;
+        } else {
+            cout << "Task limit reached. Cannot add more tasks!" << endl;
+        }
+    }
+
+    void viewTasks() {
+        if (taskCount == 0) {
+            cout << "No tasks available!" << endl;
+            return;
+        }
+
+        for (int i = 0; i < taskCount; ++i) {
+            cout << i + 1 << ". " << tasks[i].description 
+                 << " [" << (tasks[i].completed == 1 ? "Completed" : "Pending") << "]" << endl;
+        }
+    }
+
+    void markAsCompleted(int taskNumber) {
+        if (taskNumber <= 0 || taskNumber > taskCount) {
+            cout << "Invalid task number!" << endl;
+            return;
+        }
+        tasks[taskNumber - 1].completed = 1;
+        cout << "Task marked as completed!" << endl;
+    }
+    
+    void removeTask(int taskNumber) {
+        if (taskNumber <= 0 || taskNumber > taskCount) {
+            cout << "Invalid task number!" << endl;
+            return;
+        }
+
+        for (int i = taskNumber - 1; i < taskCount - 1; ++i) {
+            tasks[i] = tasks[i + 1];
+        }
+
+        taskCount--;
+        cout << "Task removed successfully!" << endl;
+    }
+};
+
+// Main function
+int main() {
+    TodoList todoList;
+    int choice, taskNumber;
+    string taskDescription;
+
+    while (true) {
+        cout << "\nTo-Do List Menu" << endl;
+        cout << "1. Add Task" << endl;
+        cout << "2. View Tasks" << endl;
+        cout << "3. Mark Task as Completed" << endl;
+        cout << "4. Remove Task" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Enter your choice (1-5): ";
+        cin >> choice;
+        cin.ignore();  // To ignore the newline character after the choice input
+
+        switch (choice) {
+            case 1:
+                cout << "Enter task description: ";
+                getline(cin, taskDescription);
+                todoList.addTask(taskDescription);
+                break;
+
+            case 2:
+                todoList.viewTasks();
+                break;
+
+            case 3:
+                cout << "Enter task number to mark as completed: ";
+                cin >> taskNumber;
+                todoList.markAsCompleted(taskNumber);
+                break;
+
+            case 4:
+                cout << "Enter task number to remove: ";
+                cin >> taskNumber;
+                todoList.removeTask(taskNumber);
+                break;
+
+            case 5:
+                cout << "Exiting To-Do List Manager. Goodbye!" << endl;
+                return 0;
+
+            default:
+                cout << "Invalid choice! Please select a valid option." << endl;
+        }
+    }
+
+    return 0;
+}
+
+Output:
+
+To-Do List Menu
+1. Add Task
+2. View Tasks
+3. Mark Task as Completed
+4. Remove Task
+5. Exit
+Enter your choice (1-5): 1
+Enter task description: Buy groceries
+Task added successfully!
+
+To-Do List Menu
+1. Add Task
+2. View Tasks
+3. Mark Task as Completed
+4. Remove Task
+5. Exit
+Enter your choice (1-5): 2
+1. Buy groceries [Pending]
+
+To-Do List Menu
+1. Add Task
+2. View Tasks
+3. Mark Task as Completed
+4. Remove Task
+5. Exit
+Enter your choice (1-5): 3
+Enter task number to mark as completed: 1
+Task marked as completed!
+
+To-Do List Menu
+1. Add Task
+2. View Tasks
+3. Mark Task as Completed
+4. Remove Task
+5. Exit
+Enter your choice (1-5): 4
+Enter task number to remove: 1
+Task removed successfully!
+
+To-Do List Menu
+1. Add Task
+2. View Tasks
+3. Mark Task as Completed
+4. Remove Task
+5. Exit
+Enter your choice (1-5): 5
+Exiting To-Do List Manager. Goodbye!
+
+
+=== Code Execution Successful ===
